@@ -36,7 +36,7 @@ and obtain/refresh credentials
 ```ini
 [module/gmail]
 type = custom/script
-exec = ~/.config/polybar/gmail/launch.py
+exec = ~/.config/polybar/gmail/launch.py -t -e work
 tail = true
 click-left = xdg-open https://mail.google.com
 ```
@@ -48,6 +48,12 @@ click-left = xdg-open https://mail.google.com
 `-c` or `--color` - to change new email badge color, default: #e06c75
 
 `-ns` or `--nosound` - turn off new email sound
+
+`-t` or `--title` - also display title of newest email next to the count
+
+`--title-format` - when title is enabled, this option specifies its format, %s is then substituted with the e-mail's subject
+
+`-e` or `--tenant` - specify which credentials file should be used
 
 ### Example
 

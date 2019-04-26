@@ -17,6 +17,8 @@ parser.add_argument('-t', '--title', action='store_true',
     help='When provided, subject of newest email is also displayed')
 parser.add_argument('--title-format', default=': %s',
     help='When title is enabled, this option specifies its format')
+parser.add_argument('--title-clip', default=0, type=int,
+    help='when title is enabled it\'s always clipped to given number of characters')
 parser.add_argument('-e', '--tenant', default='default',
     help='Identifier of credential file that should be used')
 args = parser.parse_args()
@@ -31,6 +33,11 @@ count_was = 0
 def get_subject(message):
     headers = message['payload']['headers']
     return next(h for h in headers if h["name"] == "Subject")["value"]
+
+def format_subject(subject):
+    if args.title_clip and len(subject) > args.title_clip:
+        subject = subject[:args.title_clip] + '...'
+    return args.title_format % subject
 
 def format_count(count, is_odd=False):
     tilde = '~' if is_odd else ''
@@ -56,7 +63,7 @@ def update_count(count_was):
                 id=messages[0]['id'],
                 format='metadata',
                 metadataHeaders=['Subject']).execute()
-        out += args.title_format % get_subject(message)
+        out += format_subject(get_subject(message))
 
     if not args.nosound and count_was < count and count > 0:
         subprocess.run(['canberra-gtk-play', '-i', 'message'])

@@ -53,6 +53,8 @@ click-left = xdg-open https://mail.google.com
 
 `--title-format` - when title is enabled, this option specifies its format, %s is then substituted with the e-mail's subject
 
+`--title-clip` - when specified, title is always clipped to given number of characters
+
 `-e` or `--tenant` - specify which credentials file should be used
 
 ### Example

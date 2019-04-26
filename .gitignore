@@ -1,1 +1,3 @@
+credentials-*.json
+# Leave original credentials file ignored, so it never gets commited by mistake
 credentials.json

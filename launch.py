@@ -17,10 +17,12 @@ parser.add_argument('-t', '--title', action='store_true',
     help='When provided, subject of newest email is also displayed')
 parser.add_argument('--title-format', default=': %s',
     help='When title is enabled, this option specifies its format')
+parser.add_argument('-e', '--tenant', default='default',
+    help='Identifier of credential file that should be used')
 args = parser.parse_args()
 
 DIR = os.path.dirname(os.path.realpath(__file__))
-CREDENTIALS_PATH = os.path.join(DIR, 'credentials.json')
+CREDENTIALS_PATH = os.path.join(DIR, 'credentials-{}.json'.format(args.tenant))
 
 unread_prefix = '%{F' + args.color + '}' + args.prefix + ' %{F-}'
 error_prefix = '%{F' + args.color + '}\uf06a %{F-}'

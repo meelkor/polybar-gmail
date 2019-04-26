@@ -4,14 +4,20 @@ import os
 import pathlib
 import httplib2
 import webbrowser
+import argparse
 from oauth2client import client, file
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-e', '--tenant', default='default',
+    help='Identifier for newly created credentials')
+args = parser.parse_args()
 
 SCOPE = 'https://www.googleapis.com/auth/gmail.readonly'
 REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
 DIR = os.path.dirname(os.path.realpath(__file__))
 CLIENT_SECRETS_PATH = os.path.join(DIR, 'client_secrets.json')
-CREDENTIALS_PATH = os.path.join(DIR, 'credentials.json')
-storage = file.Storage(CREDENTIALS_PATH)
+CREDENTIALS_PATH = os.path.join(DIR, 'credentials-%s.json')
+storage = file.Storage(CREDENTIALS_PATH % args.tenant)
 
 if pathlib.Path(CREDENTIALS_PATH).is_file():
     credentials = storage.get()
